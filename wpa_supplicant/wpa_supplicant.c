@@ -116,7 +116,7 @@ const char *const wpa_supplicant_full_license5 =
 int wpa_set_wep_keys(struct wpa_supplicant *wpa_s, struct wpa_ssid *ssid)
 {
 	int i, set = 0;
-
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	for (i = 0; i < NUM_WEP_KEYS; i++) {
 		if (ssid->wep_key_len[i] == 0)
 			continue;
@@ -139,6 +139,7 @@ int wpa_supplicant_set_wpa_none_key(struct wpa_supplicant *wpa_s,
 	enum wpa_alg alg;
 	u8 seq[6] = { 0 };
 	int ret;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* IBSS/WPA-None uses only one key (Group) for both receiving and
 	 * sending unicast and multicast packets. */
@@ -192,6 +193,7 @@ static void wpa_supplicant_timeout(void *eloop_ctx, void *timeout_ctx)
 {
 	struct wpa_supplicant *wpa_s = eloop_ctx;
 	const u8 *bssid = wpa_s->bssid;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (!is_zero_ether_addr(wpa_s->pending_bssid) &&
 	    (wpa_s->wpa_state == WPA_AUTHENTICATING ||
 	     wpa_s->wpa_state == WPA_ASSOCIATING))
@@ -259,6 +261,7 @@ void wpa_supplicant_cancel_auth_timeout(struct wpa_supplicant *wpa_s)
  */
 void wpa_supplicant_initiate_eapol(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef IEEE8021X_EAPOL
 	struct eapol_config eapol_conf;
 	struct wpa_ssid *ssid = wpa_s->current_ssid;
@@ -347,6 +350,7 @@ void wpa_supplicant_set_non_wpa_policy(struct wpa_supplicant *wpa_s,
 				       struct wpa_ssid *ssid)
 {
 	int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (ssid->key_mgmt & WPA_KEY_MGMT_WPS)
 		wpa_s->key_mgmt = WPA_KEY_MGMT_WPS;
@@ -418,6 +422,7 @@ static void free_bss_tmp_disallowed(struct wpa_supplicant *wpa_s)
 static void wpa_supplicant_cleanup(struct wpa_supplicant *wpa_s)
 {
 	int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	bgscan_deinit(wpa_s);
 	autoscan_deinit(wpa_s);
@@ -594,6 +599,7 @@ static void wpa_supplicant_cleanup(struct wpa_supplicant *wpa_s)
 void wpa_clear_keys(struct wpa_supplicant *wpa_s, const u8 *addr)
 {
 	int i, max;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 #ifdef CONFIG_IEEE80211W
 	max = 6;
@@ -661,6 +667,7 @@ const char * wpa_supplicant_state_txt(enum wpa_states state)
 static void wpa_supplicant_start_bgscan(struct wpa_supplicant *wpa_s)
 {
 	const char *name;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->current_ssid && wpa_s->current_ssid->bgscan)
 		name = wpa_s->current_ssid->bgscan;
@@ -748,6 +755,7 @@ void wpa_supplicant_set_state(struct wpa_supplicant *wpa_s,
 			      enum wpa_states state)
 {
 	enum wpa_states old_state = wpa_s->wpa_state;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(wpa_s, MSG_DEBUG, "State: %s -> %s",
 		wpa_supplicant_state_txt(wpa_s->wpa_state),
@@ -858,6 +866,7 @@ void wpa_supplicant_set_state(struct wpa_supplicant *wpa_s,
 
 void wpa_supplicant_terminate_proc(struct wpa_global *global)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	int pending = 0;
 #ifdef CONFIG_WPS
 	struct wpa_supplicant *wpa_s = global->ifaces;
@@ -889,6 +898,7 @@ static void wpa_supplicant_terminate(int sig, void *signal_ctx)
 void wpa_supplicant_clear_status(struct wpa_supplicant *wpa_s)
 {
 	enum wpa_states old_state = wpa_s->wpa_state;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_s->pairwise_cipher = 0;
 	wpa_s->group_cipher = 0;
@@ -918,6 +928,7 @@ int wpa_supplicant_reload_configuration(struct wpa_supplicant *wpa_s)
 	struct wpa_config *conf;
 	int reconf_ctrl;
 	int old_ap_scan;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->confname == NULL)
 		return -1;
@@ -989,6 +1000,7 @@ int wpa_supplicant_reload_configuration(struct wpa_supplicant *wpa_s)
 
 static void wpa_supplicant_reconfig(int sig, void *signal_ctx)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	struct wpa_global *global = signal_ctx;
 	struct wpa_supplicant *wpa_s;
 	for (wpa_s = global->ifaces; wpa_s; wpa_s = wpa_s->next) {
@@ -1010,6 +1022,7 @@ static int wpa_supplicant_suites_from_ai(struct wpa_supplicant *wpa_s,
 					 struct wpa_ssid *ssid,
 					 struct wpa_ie_data *ie)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	int ret = wpa_sm_parse_own_wpa_ie(wpa_s->wpa, ie);
 	if (ret) {
 		if (ret == -2) {
@@ -1075,6 +1088,7 @@ int wpa_supplicant_set_suites(struct wpa_supplicant *wpa_s,
 	struct wpa_ie_data ie;
 	int sel, proto;
 	const u8 *bss_wpa, *bss_rsn, *bss_osen;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (bss) {
 		bss_wpa = wpa_bss_get_vendor_ie(bss, WPA_IE_VENDOR_TYPE);
@@ -1420,6 +1434,7 @@ int wpa_supplicant_set_suites(struct wpa_supplicant *wpa_s,
 static void wpas_ext_capab_byte(struct wpa_supplicant *wpa_s, u8 *pos, int idx)
 {
 	*pos = 0x00;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	switch (idx) {
 	case 0: /* Bits 0-7 */
@@ -1474,6 +1489,7 @@ int wpas_build_ext_capab(struct wpa_supplicant *wpa_s, u8 *buf, size_t buflen)
 {
 	u8 *pos = buf;
 	u8 len = 6, i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (len < 9 &&
 	    (wpa_s->conf->ftm_initiator || wpa_s->conf->ftm_responder))
@@ -1574,6 +1590,7 @@ int wpas_update_random_addr(struct wpa_supplicant *wpa_s, int style)
 {
 	struct os_reltime now;
 	u8 addr[ETH_ALEN];
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	os_get_reltime(&now);
 	if (wpa_s->last_mac_addr_style == style &&
@@ -1647,6 +1664,7 @@ void wpa_supplicant_associate(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_connect_work *cwork;
 	int rand_style;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_s->own_disconnect_req = 0;
 
@@ -1796,6 +1814,7 @@ static int drv_supports_vht(struct wpa_supplicant *wpa_s,
 	struct hostapd_hw_modes *mode = NULL;
 	u8 channel;
 	int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 #ifdef CONFIG_HT_OVERRIDES
 	if (ssid->disable_ht)
@@ -1835,6 +1854,7 @@ void ibss_mesh_setup_freq(struct wpa_supplicant *wpa_s,
 	struct hostapd_freq_params vht_freq;
 	int chwidth, seg0, seg1;
 	u32 vht_caps = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	freq->freq = ssid->frequency;
 
@@ -2086,6 +2106,7 @@ void ibss_mesh_setup_freq(struct wpa_supplicant *wpa_s,
 
 static void wpas_start_assoc_cb(struct wpa_radio_work *work, int deinit)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	struct wpa_connect_work *cwork = work->ctx;
 	struct wpa_bss *bss = cwork->bss;
 	struct wpa_ssid *ssid = cwork->ssid;
@@ -2701,6 +2722,7 @@ void wpa_supplicant_deauthenticate(struct wpa_supplicant *wpa_s,
 	u8 *addr = NULL;
 	union wpa_event_data event;
 	int zero_addr = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(wpa_s, MSG_DEBUG, "Request to deauthenticate - bssid=" MACSTR
 		" pending_bssid=" MACSTR " reason=%d state=%s",
