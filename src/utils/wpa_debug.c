@@ -33,7 +33,7 @@ static FILE *wpa_debug_tracing_file = NULL;
 
 int wpa_debug_level = MSG_INFO;
 int wpa_debug_show_keys = 0;
-int wpa_debug_timestamp = 0;
+int wpa_debug_timestamp = 1;
 
 
 #ifdef CONFIG_ANDROID_LOG
@@ -70,8 +70,8 @@ void wpa_debug_print_timestamp(void)
 	struct os_time tv;
     struct tm *time;
 
-	if (!wpa_debug_timestamp)
-		return;
+//	if (!wpa_debug_timestamp)
+//		return;
 
 	os_get_time(&tv);
 	time = localtime(&tv.sec);
