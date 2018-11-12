@@ -2774,6 +2774,7 @@ void wpa_supplicant_deauthenticate(struct wpa_supplicant *wpa_s,
 static void wpa_supplicant_enable_one_network(struct wpa_supplicant *wpa_s,
 					      struct wpa_ssid *ssid)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (!ssid || !ssid->disabled || ssid->disabled == 2)
 		return;
 
@@ -2804,6 +2805,7 @@ static void wpa_supplicant_enable_one_network(struct wpa_supplicant *wpa_s,
 struct wpa_ssid * wpa_supplicant_add_network(struct wpa_supplicant *wpa_s)
 {
 	struct wpa_ssid *ssid;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	ssid = wpa_config_add_network(wpa_s->conf);
 	if (!ssid)
@@ -2833,6 +2835,7 @@ int wpa_supplicant_remove_network(struct wpa_supplicant *wpa_s, int id)
 {
 	struct wpa_ssid *ssid;
 	int was_disabled;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	ssid = wpa_config_get_network(wpa_s->conf, id);
 	if (!ssid)
@@ -2889,6 +2892,7 @@ int wpa_supplicant_remove_network(struct wpa_supplicant *wpa_s, int id)
 void wpa_supplicant_enable_network(struct wpa_supplicant *wpa_s,
 				   struct wpa_ssid *ssid)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (ssid == NULL) {
 		for (ssid = wpa_s->conf->ssid; ssid; ssid = ssid->next)
 			wpa_supplicant_enable_one_network(wpa_s, ssid);
@@ -2925,6 +2929,7 @@ void wpa_supplicant_disable_network(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_ssid *other_ssid;
 	int was_disabled;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (ssid == NULL) {
 		if (wpa_s->sched_scanning)
@@ -2979,6 +2984,7 @@ void wpa_supplicant_select_network(struct wpa_supplicant *wpa_s,
 
 	struct wpa_ssid *other_ssid;
 	int disconnected = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (ssid && ssid != wpa_s->current_ssid && wpa_s->current_ssid) {
 		if (wpa_s->wpa_state >= WPA_AUTHENTICATING)
@@ -3065,6 +3071,7 @@ int wpas_set_pkcs11_engine_and_module_path(struct wpa_supplicant *wpa_s,
 {
 	char *pkcs11_engine_path_copy = NULL;
 	char *pkcs11_module_path_copy = NULL;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (pkcs11_engine_path != NULL) {
 		pkcs11_engine_path_copy = os_strdup(pkcs11_engine_path);
@@ -3112,6 +3119,7 @@ int wpa_supplicant_set_ap_scan(struct wpa_supplicant *wpa_s, int ap_scan)
 {
 
 	int old_ap_scan;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (ap_scan < 0 || ap_scan > 2)
 		return -1;
@@ -3151,6 +3159,7 @@ int wpa_supplicant_set_ap_scan(struct wpa_supplicant *wpa_s, int ap_scan)
 int wpa_supplicant_set_bss_expiration_age(struct wpa_supplicant *wpa_s,
 					  unsigned int bss_expire_age)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (bss_expire_age < 10) {
 		wpa_msg(wpa_s, MSG_ERROR, "Invalid bss expiration age %u",
 			bss_expire_age);
@@ -3174,6 +3183,7 @@ int wpa_supplicant_set_bss_expiration_age(struct wpa_supplicant *wpa_s,
 int wpa_supplicant_set_bss_expiration_count(struct wpa_supplicant *wpa_s,
 					    unsigned int bss_expire_count)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (bss_expire_count < 1) {
 		wpa_msg(wpa_s, MSG_ERROR, "Invalid bss expiration count %u",
 			bss_expire_count);
@@ -3197,6 +3207,7 @@ int wpa_supplicant_set_bss_expiration_count(struct wpa_supplicant *wpa_s,
 int wpa_supplicant_set_scan_interval(struct wpa_supplicant *wpa_s,
 				     int scan_interval)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (scan_interval < 0) {
 		wpa_msg(wpa_s, MSG_ERROR, "Invalid scan interval %d",
 			scan_interval);
@@ -3223,6 +3234,7 @@ int wpa_supplicant_set_debug_params(struct wpa_global *global, int debug_level,
 {
 
 	int old_level, old_timestamp, old_show_keys;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* check for allowed debuglevels */
 	if (debug_level != MSG_EXCESSIVE &&
@@ -3265,6 +3277,7 @@ struct wpa_ssid * wpa_supplicant_get_ssid(struct wpa_supplicant *wpa_s)
 	size_t ssid_len;
 	u8 bssid[ETH_ALEN];
 	int wired;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	res = wpa_drv_get_ssid(wpa_s, ssid);
 	if (res < 0) {
@@ -3315,6 +3328,7 @@ struct wpa_ssid * wpa_supplicant_get_ssid(struct wpa_supplicant *wpa_s)
 static int select_driver(struct wpa_supplicant *wpa_s, int i)
 {
 	struct wpa_global *global = wpa_s->global;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_drivers[i]->global_init && global->drv_priv[i] == NULL) {
 		global->drv_priv[i] = wpa_drivers[i]->global_init(global);
@@ -3338,6 +3352,7 @@ static int wpa_supplicant_set_driver(struct wpa_supplicant *wpa_s,
 	int i;
 	size_t len;
 	const char *pos, *driver = name;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s == NULL)
 		return -1;
@@ -3396,6 +3411,7 @@ void wpa_supplicant_rx_eapol(void *ctx, const u8 *src_addr,
 			     const u8 *buf, size_t len)
 {
 	struct wpa_supplicant *wpa_s = ctx;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(wpa_s, MSG_DEBUG, "RX EAPOL from " MACSTR, MAC2STR(src_addr));
 	wpa_hexdump(MSG_MSGDUMP, "RX EAPOL", buf, len);
@@ -3546,6 +3562,7 @@ void wpa_supplicant_rx_eapol(void *ctx, const u8 *src_addr,
 
 int wpa_supplicant_update_mac_addr(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if ((!wpa_s->p2p_mgmt ||
 	     !(wpa_s->drv_flags & WPA_DRIVER_FLAGS_DEDICATED_P2P_DEVICE)) &&
 	    !(wpa_s->drv_flags & WPA_DRIVER_FLAGS_P2P_DEDICATED_INTERFACE)) {
@@ -3578,6 +3595,7 @@ static void wpa_supplicant_rx_eapol_bridge(void *ctx, const u8 *src_addr,
 {
 	struct wpa_supplicant *wpa_s = ctx;
 	const struct l2_ethhdr *eth;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (len < sizeof(*eth))
 		return;
@@ -3610,6 +3628,7 @@ static void wpa_supplicant_rx_eapol_bridge(void *ctx, const u8 *src_addr,
 int wpa_supplicant_driver_init(struct wpa_supplicant *wpa_s)
 {
 	static int interface_count = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_supplicant_update_mac_addr(wpa_s) < 0)
 		return -1;
@@ -3683,6 +3702,7 @@ static struct wpa_supplicant *
 wpa_supplicant_alloc(struct wpa_supplicant *parent)
 {
 	struct wpa_supplicant *wpa_s;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_s = os_zalloc(sizeof(*wpa_s));
 	if (wpa_s == NULL)
@@ -3711,6 +3731,7 @@ static int wpa_set_htcap_mcs(struct wpa_supplicant *wpa_s,
 	int i;
 	const char *tmp = ht_mcs;
 	char *end = NULL;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* If ht_mcs is null, do not set anything */
 	if (!ht_mcs)
@@ -3899,6 +3920,7 @@ void wpa_supplicant_apply_ht_overrides(
 {
 	struct ieee80211_ht_capabilities *htcaps;
 	struct ieee80211_ht_capabilities *htcaps_mask;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!ssid)
 		return;
@@ -3935,6 +3957,7 @@ void wpa_supplicant_apply_vht_overrides(
 {
 	struct ieee80211_vht_capabilities *vhtcaps;
 	struct ieee80211_vht_capabilities *vhtcaps_mask;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!ssid)
 		return;
@@ -3997,6 +4020,7 @@ void wpa_supplicant_apply_vht_overrides(
 
 static int pcsc_reader_init(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef PCSC_FUNCS
 	size_t len;
 
@@ -4040,6 +4064,7 @@ static int pcsc_reader_init(struct wpa_supplicant *wpa_s)
 int wpas_init_ext_pw(struct wpa_supplicant *wpa_s)
 {
 	char *val, *pos;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	ext_password_deinit(wpa_s->ext_pw);
 	wpa_s->ext_pw = NULL;
@@ -4085,6 +4110,7 @@ static void wpas_fst_get_channel_info_cb(void *ctx,
 					 u8 *channel)
 {
 	struct wpa_supplicant *wpa_s = ctx;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->current_bss) {
 		*hw_mode = ieee80211_freq_to_chan(wpa_s->current_bss->freq,
@@ -4194,6 +4220,7 @@ static int wpas_set_wowlan_triggers(struct wpa_supplicant *wpa_s,
 {
 	struct wowlan_triggers *triggers;
 	int ret = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!wpa_s->conf->wowlan_triggers)
 		return 0;
@@ -4221,6 +4248,7 @@ unsigned int wpas_get_bands(struct wpa_supplicant *wpa_s, const int *freqs)
 {
 	int i;
 	unsigned int band = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (freqs) {
 		/* freqs are specified for the radio work */
@@ -4261,6 +4289,7 @@ static struct wpa_radio * radio_add_interface(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_supplicant *iface = wpa_s->global->ifaces;
 	struct wpa_radio *radio;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	while (rn && iface) {
 		radio = iface->radio;
@@ -4292,6 +4321,7 @@ static struct wpa_radio * radio_add_interface(struct wpa_supplicant *wpa_s,
 
 static void radio_work_free(struct wpa_radio_work *work)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (work->wpa_s->scan_work == work) {
 		/* This should not really happen. */
 		wpa_dbg(work->wpa_s, MSG_INFO, "Freeing radio work '%s'@%p (started=%d) that is marked as scan_work",
@@ -4325,6 +4355,7 @@ static struct wpa_radio_work * radio_work_get_next_work(struct wpa_radio *radio)
 {
 	struct wpa_radio_work *active_work = NULL;
 	struct wpa_radio_work *tmp;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* Get the active work to know the type and band. */
 	dl_list_for_each(tmp, &radio->work, struct wpa_radio_work, list) {
@@ -4411,6 +4442,7 @@ static void radio_start_next_work(void *eloop_ctx, void *timeout_ctx)
 	struct wpa_radio_work *work;
 	struct os_reltime now, diff;
 	struct wpa_supplicant *wpa_s;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	work = dl_list_first(&radio->work, struct wpa_radio_work, list);
 	if (work == NULL) {
@@ -4474,6 +4506,7 @@ void radio_remove_works(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_radio_work *work, *tmp;
 	struct wpa_radio *radio = wpa_s->radio;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	dl_list_for_each_safe(work, tmp, &radio->work, struct wpa_radio_work,
 			      list) {
@@ -4498,6 +4531,7 @@ void radio_remove_works(struct wpa_supplicant *wpa_s,
 static void radio_remove_interface(struct wpa_supplicant *wpa_s)
 {
 	struct wpa_radio *radio = wpa_s->radio;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!radio)
 		return;
@@ -4519,6 +4553,7 @@ static void radio_remove_interface(struct wpa_supplicant *wpa_s)
 void radio_work_check_next(struct wpa_supplicant *wpa_s)
 {
 	struct wpa_radio *radio = wpa_s->radio;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (dl_list_empty(&radio->work))
 		return;
@@ -4565,6 +4600,7 @@ int radio_add_work(struct wpa_supplicant *wpa_s, unsigned int freq,
 	struct wpa_radio *radio = wpa_s->radio;
 	struct wpa_radio_work *work;
 	int was_empty;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	work = os_zalloc(sizeof(*work));
 	if (work == NULL)
@@ -4619,6 +4655,7 @@ void radio_work_done(struct wpa_radio_work *work)
 	struct wpa_supplicant *wpa_s = work->wpa_s;
 	struct os_reltime now, diff;
 	unsigned int started = work->started;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	os_get_reltime(&now);
 	os_reltime_sub(&now, &work->time, &diff);
@@ -4636,6 +4673,7 @@ radio_work_pending(struct wpa_supplicant *wpa_s, const char *type)
 {
 	struct wpa_radio_work *work;
 	struct wpa_radio *radio = wpa_s->radio;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	dl_list_for_each(work, &radio->work, struct wpa_radio_work, list) {
 		if (work->wpa_s == wpa_s && os_strcmp(work->type, type) == 0)
@@ -4650,6 +4688,7 @@ static int wpas_init_driver(struct wpa_supplicant *wpa_s,
 			    struct wpa_interface *iface)
 {
 	const char *ifname, *driver, *rn;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	driver = iface->driver;
 next_driver:
@@ -4700,6 +4739,7 @@ static int wpa_supplicant_init_iface(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_driver_capa capa;
 	int capa_res;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_printf(MSG_DEBUG, "Initializing interface '%s' conf '%s' driver "
 		   "'%s' ctrl_interface '%s' bridge '%s'", iface->ifname,
@@ -5020,6 +5060,7 @@ static void wpa_supplicant_deinit_iface(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_global *global = wpa_s->global;
 	struct wpa_supplicant *iface, *prev;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s == wpa_s->parent)
 		wpas_p2p_group_remove(wpa_s, "*");
@@ -5111,6 +5152,7 @@ struct wpa_interface * wpa_supplicant_match_iface(struct wpa_global *global,
 {
 	int i;
 	struct wpa_interface *iface, *miface;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	for (i = 0; i < global->params.match_iface_count; i++) {
 		miface = &global->params.match_ifaces[i];
@@ -5139,6 +5181,7 @@ static int wpa_supplicant_match_existing(struct wpa_global *global)
 	struct if_nameindex *ifi, *ifp;
 	struct wpa_supplicant *wpa_s;
 	struct wpa_interface *iface;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	ifp = if_nameindex();
 	if (!ifp) {
@@ -5186,6 +5229,7 @@ struct wpa_supplicant * wpa_supplicant_add_iface(struct wpa_global *global,
 	struct wpa_supplicant *wpa_s;
 	struct wpa_interface t_iface;
 	struct wpa_ssid *ssid;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (global == NULL || iface == NULL)
 		return NULL;
@@ -5271,6 +5315,7 @@ int wpa_supplicant_remove_iface(struct wpa_global *global,
 	unsigned int mesh_if_created = wpa_s->mesh_if_created;
 	char *ifname = NULL;
 #endif /* CONFIG_MESH */
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* Remove interface from the global list of interfaces */
 	prev = global->ifaces;
@@ -5322,6 +5367,7 @@ int wpa_supplicant_remove_iface(struct wpa_global *global,
 const char * wpa_supplicant_get_eap_mode(struct wpa_supplicant *wpa_s)
 {
 	const char *eapol_method;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
         if (wpa_key_mgmt_wpa_ieee8021x(wpa_s->key_mgmt) == 0 &&
             wpa_s->key_mgmt != WPA_KEY_MGMT_IEEE8021X_NO_WPA) {
@@ -5346,6 +5392,7 @@ struct wpa_supplicant * wpa_supplicant_get_iface(struct wpa_global *global,
 						 const char *ifname)
 {
 	struct wpa_supplicant *wpa_s;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	for (wpa_s = global->ifaces; wpa_s; wpa_s = wpa_s->next) {
 		if (os_strcmp(wpa_s->ifname, ifname) == 0)
@@ -5406,6 +5453,7 @@ struct wpa_global * wpa_supplicant_init(struct wpa_params *params)
 {
 	struct wpa_global *global;
 	int ret, i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (params == NULL)
 		return NULL;
@@ -5552,6 +5600,7 @@ struct wpa_global * wpa_supplicant_init(struct wpa_params *params)
 int wpa_supplicant_run(struct wpa_global *global)
 {
 	struct wpa_supplicant *wpa_s;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (global->params.daemonize &&
 	    (wpa_supplicant_daemon(global->params.pid_file) ||
@@ -5589,6 +5638,7 @@ int wpa_supplicant_run(struct wpa_global *global)
 void wpa_supplicant_deinit(struct wpa_global *global)
 {
 	int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (global == NULL)
 		return;
@@ -5651,6 +5701,7 @@ void wpa_supplicant_deinit(struct wpa_global *global)
 
 void wpa_supplicant_update_config(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if ((wpa_s->conf->changed_parameters & CFG_CHANGED_COUNTRY) &&
 	    wpa_s->conf->country[0] && wpa_s->conf->country[1]) {
 		char country[3];
@@ -5697,6 +5748,7 @@ static int * get_bss_freqs_in_ess(struct wpa_supplicant *wpa_s)
 	const int max_freqs = 10;
 	int *freqs;
 	int num_freqs = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	freqs = os_calloc(max_freqs + 1, sizeof(int));
 	if (freqs == NULL)
@@ -5730,6 +5782,7 @@ void wpas_connection_failed(struct wpa_supplicant *wpa_s, const u8 *bssid)
 	int timeout;
 	int count;
 	int *freqs = NULL;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpas_connect_work_done(wpa_s);
 
@@ -5841,6 +5894,7 @@ int wpa_supplicant_ctrl_iface_ctrl_rsp_handle(struct wpa_supplicant *wpa_s,
 					      const char *field,
 					      const char *value)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef IEEE8021X_EAPOL
 	struct eap_peer_config *eap = &ssid->eap;
 
@@ -5936,6 +5990,7 @@ int wpas_network_disabled(struct wpa_supplicant *wpa_s, struct wpa_ssid *ssid)
 {
 	int i;
 	unsigned int drv_enc;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->p2p_mgmt)
 		return 1; /* no normal network profiles on p2p_mgmt interface */
@@ -5975,6 +6030,7 @@ int wpas_network_disabled(struct wpa_supplicant *wpa_s, struct wpa_ssid *ssid)
 
 int wpas_get_ssid_pmf(struct wpa_supplicant *wpa_s, struct wpa_ssid *ssid)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_IEEE80211W
 	if (ssid == NULL || ssid->ieee80211w == MGMT_FRAME_PROTECTION_DEFAULT) {
 		if (wpa_s->conf->pmf == MGMT_FRAME_PROTECTION_OPTIONAL &&
@@ -6025,6 +6081,7 @@ void wpas_auth_failed(struct wpa_supplicant *wpa_s, char *reason)
 	struct wpa_ssid *ssid = wpa_s->current_ssid;
 	int dur;
 	struct os_reltime now;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (ssid == NULL) {
 		wpa_printf(MSG_DEBUG, "Authentication failure but no known "
@@ -6083,6 +6140,7 @@ void wpas_auth_failed(struct wpa_supplicant *wpa_s, char *reason)
 void wpas_clear_temp_disabled(struct wpa_supplicant *wpa_s,
 			      struct wpa_ssid *ssid, int clear_failures)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (ssid == NULL)
 		return;
 
@@ -6101,6 +6159,7 @@ void wpas_clear_temp_disabled(struct wpa_supplicant *wpa_s,
 int disallowed_bssid(struct wpa_supplicant *wpa_s, const u8 *bssid)
 {
 	size_t i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->disallow_aps_bssid == NULL)
 		return 0;
@@ -6119,6 +6178,7 @@ int disallowed_ssid(struct wpa_supplicant *wpa_s, const u8 *ssid,
 		    size_t ssid_len)
 {
 	size_t i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->disallow_aps_ssid == NULL || ssid == NULL)
 		return 0;
@@ -6144,6 +6204,7 @@ int disallowed_ssid(struct wpa_supplicant *wpa_s, const u8 *ssid,
  */
 void wpas_request_connection(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	wpa_s->normal_scans = 0;
 	wpa_s->scan_req = NORMAL_SCAN_REQ;
 	wpa_supplicant_reinit_autoscan(wpa_s);
@@ -6167,6 +6228,7 @@ void wpas_request_connection(struct wpa_supplicant *wpa_s)
  */
 void wpas_request_disconnection(struct wpa_supplicant *wpa_s)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_SME
 	wpa_s->sme.prev_bssid_set = 0;
 #endif /* CONFIG_SME */
@@ -6184,6 +6246,7 @@ void dump_freq_data(struct wpa_supplicant *wpa_s, const char *title,
 		    unsigned int len)
 {
 	unsigned int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(wpa_s, MSG_DEBUG, "Shared frequencies (len=%u): %s",
 		len, title);
@@ -6208,6 +6271,7 @@ int get_shared_radio_freqs_data(struct wpa_supplicant *wpa_s,
 	u8 bssid[ETH_ALEN];
 	int freq;
 	unsigned int idx = 0, i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(wpa_s, MSG_DEBUG,
 		"Determining shared radio frequencies (max len %u)", len);
@@ -6259,6 +6323,7 @@ int get_shared_radio_freqs(struct wpa_supplicant *wpa_s,
 {
 	struct wpa_used_freq_data *freqs_data;
 	int num, i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	os_memset(freq_array, 0, sizeof(int) * len);
 
@@ -6279,6 +6344,7 @@ int get_shared_radio_freqs(struct wpa_supplicant *wpa_s,
 static void wpas_rrm_neighbor_rep_timeout_handler(void *data, void *user_ctx)
 {
 	struct rrm_data *rrm = data;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!rrm->notify_neighbor_rep) {
 		wpa_printf(MSG_ERROR,
@@ -6301,6 +6367,7 @@ static void wpas_rrm_neighbor_rep_timeout_handler(void *data, void *user_ctx)
 void wpas_rrm_reset(struct wpa_supplicant *wpa_s)
 {
 	wpa_s->rrm.rrm_used = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	eloop_cancel_timeout(wpas_rrm_neighbor_rep_timeout_handler, &wpa_s->rrm,
 			     NULL);
@@ -6320,6 +6387,7 @@ void wpas_rrm_process_neighbor_rep(struct wpa_supplicant *wpa_s,
 				   const u8 *report, size_t report_len)
 {
 	struct wpabuf *neighbor_rep;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_hexdump(MSG_DEBUG, "RRM: New Neighbor Report", report, report_len);
 	if (report_len < 1)
@@ -6395,6 +6463,7 @@ int wpas_rrm_send_neighbor_rep_request(struct wpa_supplicant *wpa_s,
 {
 	struct wpabuf *buf;
 	const u8 *rrm_ie;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->wpa_state != WPA_COMPLETED || wpa_s->current_ssid == NULL) {
 		wpa_printf(MSG_DEBUG, "RRM: No connection, no RRM.");
@@ -6549,6 +6618,7 @@ static struct wpabuf * wpas_rrm_build_lci_report(struct wpa_supplicant *wpa_s,
 	unsigned long diff_l;
 	u8 *ptoken;
 	const u8 *subelem;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!wpa_s->lci || len < 3 + 4)
 		return report;
@@ -6605,6 +6675,7 @@ void wpas_rrm_handle_radio_measurement_request(struct wpa_supplicant *wpa_s,
 	struct wpabuf *buf, *report;
 	u8 token;
 	const u8 *ie, *end;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->wpa_state != WPA_COMPLETED) {
 		wpa_printf(MSG_INFO,
@@ -6688,6 +6759,7 @@ void wpas_rrm_handle_link_measurement_request(struct wpa_supplicant *wpa_s,
 	struct wpabuf *buf;
 	const struct rrm_link_measurement_request *req;
 	struct rrm_link_measurement_report report;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_s->wpa_state != WPA_COMPLETED) {
 		wpa_printf(MSG_INFO,

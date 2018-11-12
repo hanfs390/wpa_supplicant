@@ -23,6 +23,7 @@ int wpa_derive_ptk_ft(struct wpa_sm *sm, const unsigned char *src_addr,
 {
 	u8 ptk_name[WPA_PMK_NAME_LEN];
 	const u8 *anonce = key->key_nonce;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->xxkey_len == 0) {
 		wpa_printf(MSG_DEBUG, "FT: XXKey not available for key "
@@ -58,6 +59,7 @@ int wpa_derive_ptk_ft(struct wpa_sm *sm, const unsigned char *src_addr,
 int wpa_sm_set_ft_params(struct wpa_sm *sm, const u8 *ies, size_t ies_len)
 {
 	struct wpa_ft_ies ft;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm == NULL)
 		return 0;
@@ -151,6 +153,7 @@ static u8 * wpa_ft_gen_req_ies(struct wpa_sm *sm, size_t *len,
 	struct rsn_ftie *ftie;
 	struct rsn_ie_hdr *rsnie;
 	u16 capab;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	sm->ft_completed = 0;
 
@@ -315,6 +318,7 @@ static int wpa_ft_install_ptk(struct wpa_sm *sm, const u8 *bssid)
 	int keylen;
 	enum wpa_alg alg;
 	u8 null_rsc[6] = { 0, 0, 0, 0, 0, 0 };
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_printf(MSG_DEBUG, "FT: Installing PTK to the driver.");
 
@@ -347,6 +351,7 @@ int wpa_ft_prepare_auth_request(struct wpa_sm *sm, const u8 *mdie)
 {
 	u8 *ft_ies;
 	size_t ft_ies_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/* Generate a new SNonce */
 	if (random_get_bytes(sm->snonce, WPA_NONCE_LEN)) {
@@ -378,6 +383,7 @@ int wpa_ft_process_response(struct wpa_sm *sm, const u8 *ies, size_t ies_len,
 	u8 ptk_name[WPA_PMK_NAME_LEN];
 	int ret;
 	const u8 *bssid;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_hexdump(MSG_DEBUG, "FT: Response IEs", ies, ies_len);
 	wpa_hexdump(MSG_DEBUG, "FT: RIC IEs", ric_ies, ric_ies_len);
@@ -543,6 +549,7 @@ static int wpa_ft_process_gtk_subelem(struct wpa_sm *sm, const u8 *gtk_elem,
 	int keyidx;
 	enum wpa_alg alg;
 	size_t gtk_len, keylen, rsc_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (gtk_elem == NULL) {
 		wpa_printf(MSG_DEBUG, "FT: No GTK included in FTIE");
@@ -616,6 +623,7 @@ static int wpa_ft_process_igtk_subelem(struct wpa_sm *sm, const u8 *igtk_elem,
 {
 	u8 igtk[WPA_IGTK_LEN];
 	u16 keyidx;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->mgmt_group_cipher != WPA_CIPHER_AES_128_CMAC)
 		return 0;
@@ -672,6 +680,7 @@ int wpa_ft_validate_reassoc_resp(struct wpa_sm *sm, const u8 *ies,
 	struct rsn_ftie *ftie;
 	unsigned int count;
 	u8 mic[WPA_EAPOL_KEY_MIC_MAX_LEN];
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_hexdump(MSG_DEBUG, "FT: Response IEs", ies, ies_len);
 
@@ -822,6 +831,7 @@ int wpa_ft_start_over_ds(struct wpa_sm *sm, const u8 *target_ap,
 {
 	u8 *ft_ies;
 	size_t ft_ies_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_printf(MSG_DEBUG, "FT: Request over-the-DS with " MACSTR,
 		   MAC2STR(target_ap));

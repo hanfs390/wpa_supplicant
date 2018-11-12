@@ -129,6 +129,7 @@ static void eap_deinit_prev_method(struct eap_sm *sm, const char *txt)
  */
 int eap_allowed_method(struct eap_sm *sm, int vendor, u32 method)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	struct eap_peer_config *config = eap_get_config(sm);
 	int i;
 	struct eap_method_type *m;
@@ -373,6 +374,7 @@ nak:
 
 static char * eap_home_realm(struct eap_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	struct eap_peer_config *config = eap_get_config(sm);
 	char *realm;
 	size_t i, realm_len;
@@ -421,6 +423,7 @@ static struct eap_erp_key *
 eap_erp_get_key(struct eap_sm *sm, const char *realm)
 {
 	struct eap_erp_key *erp;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	dl_list_for_each(erp, &sm->erp_keys, struct eap_erp_key, list) {
 		char *pos;
@@ -494,6 +497,7 @@ static void eap_peer_erp_init(struct eap_sm *sm)
 	size_t realm_len, nai_buf_len;
 	struct eap_erp_key *erp = NULL;
 	int pos;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	realm = eap_home_realm(sm);
 	if (!realm)
@@ -574,6 +578,7 @@ fail:
 static int eap_peer_erp_reauth_start(struct eap_sm *sm,
 				     const struct eap_hdr *hdr, size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	char *realm;
 	struct eap_erp_key *erp;
 	struct wpabuf *msg;
@@ -861,6 +866,7 @@ SM_STATE(EAP, FAILURE)
 
 static int eap_success_workaround(struct eap_sm *sm, int reqId, int lastId)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	/*
 	 * At least Microsoft IAS and Meetinghouse Aegis seem to be sending
 	 * EAP-Success/Failure with lastId + 1 even though RFC 3748 and
@@ -891,6 +897,7 @@ static int eap_success_workaround(struct eap_sm *sm, int reqId, int lastId)
 
 static void eap_peer_sm_step_idle(struct eap_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	/*
 	 * The first three transitions are from RFC 4137. The last two are
 	 * local additions to handle special cases with LEAP and PEAP server
@@ -924,6 +931,7 @@ static void eap_peer_sm_step_idle(struct eap_sm *sm)
 static int eap_peer_req_is_duplicate(struct eap_sm *sm)
 {
 	int duplicate;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	duplicate = (sm->reqId == sm->lastId) && sm->rxReq;
 	if (sm->workaround && duplicate &&
@@ -959,6 +967,7 @@ static int eap_peer_sm_allow_canned(struct eap_sm *sm)
 static void eap_peer_sm_step_received(struct eap_sm *sm)
 {
 	int duplicate = eap_peer_req_is_duplicate(sm);
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/*
 	 * Two special cases below for LEAP are local additions to work around
@@ -1020,6 +1029,7 @@ static void eap_peer_sm_step_received(struct eap_sm *sm)
 
 static void eap_peer_sm_step_local(struct eap_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	switch (sm->EAP_state) {
 	case EAP_INITIALIZE:
 		SM_ENTER(EAP, IDLE);
@@ -1115,6 +1125,7 @@ SM_STEP(EAP)
 static Boolean eap_sm_allowMethod(struct eap_sm *sm, int vendor,
 				  EapType method)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (!eap_allowed_method(sm, vendor, method)) {
 		wpa_printf(MSG_DEBUG, "EAP: configuration does not allow: "
 			   "vendor %u method %u", vendor, method);
@@ -1135,6 +1146,7 @@ static struct wpabuf * eap_sm_build_expanded_nak(
 	struct wpabuf *resp;
 	int found = 0;
 	const struct eap_method *m;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_printf(MSG_DEBUG, "EAP: Building expanded EAP-Nak");
 
@@ -1182,6 +1194,7 @@ static struct wpabuf * eap_sm_buildNak(struct eap_sm *sm, int id)
 	int found = 0, expanded_found = 0;
 	size_t count;
 	const struct eap_method *methods, *m;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_printf(MSG_DEBUG, "EAP: Building EAP-Nak (requested type %u "
 		   "vendor=%u method=%u not allowed)", sm->reqMethod,
@@ -1228,6 +1241,7 @@ static void eap_sm_processIdentity(struct eap_sm *sm, const struct wpabuf *req)
 {
 	const u8 *pos;
 	size_t msg_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_msg(sm->msg_ctx, MSG_INFO, WPA_EVENT_EAP_STARTED
 		"EAP authentication started");
@@ -1262,6 +1276,7 @@ static int mnc_len_from_imsi(const char *imsi)
 {
 	char mcc_str[4];
 	unsigned int mcc;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	os_memcpy(mcc_str, imsi, 3);
 	mcc_str[3] = '\0';
@@ -1281,6 +1296,7 @@ static int eap_sm_append_3gpp_realm(struct eap_sm *sm, char *imsi,
 {
 	int mnc_len;
 	char *pos, mnc[4];
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (*imsi_len + 36 > max_len) {
 		wpa_printf(MSG_WARNING, "No room for realm in IMSI buffer");
@@ -1326,6 +1342,7 @@ static int eap_sm_imsi_identity(struct eap_sm *sm,
 	size_t imsi_len;
 	struct eap_method_type *m = conf->eap_methods;
 	int i;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	imsi_len = sizeof(imsi);
 	if (scard_get_imsi(sm->scard_ctx, imsi, &imsi_len)) {
@@ -1390,6 +1407,7 @@ static int eap_sm_imsi_identity(struct eap_sm *sm,
 static int eap_sm_set_scard_pin(struct eap_sm *sm,
 				struct eap_peer_config *conf)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (scard_set_pin(sm->scard_ctx, conf->pin)) {
 		/*
 		 * Make sure the same PIN is not tried again in order to avoid
@@ -1409,6 +1427,7 @@ static int eap_sm_set_scard_pin(struct eap_sm *sm,
 static int eap_sm_get_scard_identity(struct eap_sm *sm,
 				     struct eap_peer_config *conf)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (eap_sm_set_scard_pin(sm, conf))
 		return -1;
 
@@ -1435,6 +1454,7 @@ struct wpabuf * eap_sm_buildIdentity(struct eap_sm *sm, int id, int encrypted)
 	struct wpabuf *resp;
 	const u8 *identity;
 	size_t identity_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (config == NULL) {
 		wpa_printf(MSG_WARNING, "EAP: buildIdentity: configuration "
@@ -1498,6 +1518,7 @@ static void eap_sm_processNotify(struct eap_sm *sm, const struct wpabuf *req)
 	const u8 *pos;
 	char *msg;
 	size_t i, msg_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	pos = eap_hdr_validate(EAP_VENDOR_IETF, EAP_TYPE_NOTIFICATION, req,
 			       &msg_len);
@@ -1533,6 +1554,7 @@ static void eap_peer_initiate(struct eap_sm *sm, const struct eap_hdr *hdr,
 	const u8 *pos = (const u8 *) (hdr + 1);
 	const u8 *end = ((const u8 *) hdr) + len;
 	struct erp_tlvs parse;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (len < sizeof(*hdr) + 1) {
 		wpa_printf(MSG_DEBUG, "EAP: Ignored too short EAP-Initiate");
@@ -1580,6 +1602,7 @@ invalid:
 static void eap_peer_finish(struct eap_sm *sm, const struct eap_hdr *hdr,
 			    size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_ERP
 	const u8 *pos = (const u8 *) (hdr + 1);
 	const u8 *end = ((const u8 *) hdr) + len;
@@ -1741,6 +1764,7 @@ no_auth_tag:
 
 static void eap_sm_parseEapReq(struct eap_sm *sm, const struct wpabuf *req)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	const struct eap_hdr *hdr;
 	size_t plen;
 	const u8 *pos;
@@ -1849,6 +1873,7 @@ static void eap_peer_sm_tls_event(void *ctx, enum tls_event ev,
 {
 	struct eap_sm *sm = ctx;
 	char *hash_hex = NULL;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	switch (ev) {
 	case TLS_CERT_CHAIN_SUCCESS:
@@ -1925,6 +1950,7 @@ struct eap_sm * eap_peer_sm_init(void *eapol_ctx,
 {
 	struct eap_sm *sm;
 	struct tls_config tlsconf;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	sm = os_zalloc(sizeof(*sm));
 	if (sm == NULL)
@@ -2124,6 +2150,7 @@ static const char * eap_sm_decision_txt(EapDecision decision)
 int eap_sm_get_status(struct eap_sm *sm, char *buf, size_t buflen, int verbose)
 {
 	int len, ret;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm == NULL)
 		return 0;
@@ -2188,6 +2215,7 @@ static void eap_sm_request(struct eap_sm *sm, enum wpa_ctrl_req_type field,
 	struct eap_peer_config *config;
 	const char *txt = NULL;
 	char *tmp;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm == NULL)
 		return;
@@ -2437,6 +2465,7 @@ struct eap_method_type * eap_get_phase2_types(struct eap_peer_config *config,
 	int vendor;
 	size_t mcount;
 	const struct eap_method *methods, *m;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	methods = eap_peer_get_methods(&mcount);
 	if (methods == NULL)
@@ -2774,6 +2803,7 @@ const u8 * eap_get_eapSessionId(struct eap_sm *sm, size_t *len)
  */
 const u8 * eap_get_eapKeyData(struct eap_sm *sm, size_t *len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL || sm->eapKeyData == NULL) {
 		*len = 0;
 		return NULL;
@@ -2796,6 +2826,7 @@ const u8 * eap_get_eapKeyData(struct eap_sm *sm, size_t *len)
  */
 struct wpabuf * eap_get_eapRespData(struct eap_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	struct wpabuf *resp;
 
 	if (sm == NULL || sm->eapRespData == NULL)

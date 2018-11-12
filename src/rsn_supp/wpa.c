@@ -44,6 +44,7 @@ int wpa_eapol_key_send(struct wpa_sm *sm, const u8 *kck, size_t kck_len,
 		       int ver, const u8 *dest, u16 proto,
 		       u8 *msg, size_t msg_len, u8 *key_mic)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	int ret = -1;
 	size_t mic_len = wpa_mic_len(sm->key_mgmt);
 
@@ -100,6 +101,7 @@ void wpa_sm_key_request(struct wpa_sm *sm, int error, int pairwise)
 	struct wpa_eapol_key_192 *reply192;
 	int key_info, ver;
 	u8 bssid[ETH_ALEN], *rbuf, *key_mic;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->key_mgmt == WPA_KEY_MGMT_OSEN ||
 	    wpa_key_mgmt_suite_b(sm->key_mgmt))
@@ -162,6 +164,7 @@ void wpa_sm_key_request(struct wpa_sm *sm, int error, int pairwise)
 
 static void wpa_supplicant_key_mgmt_set_pmk(struct wpa_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_IEEE80211R
 	if (sm->key_mgmt == WPA_KEY_MGMT_FT_IEEE8021X) {
 		if (wpa_sm_key_mgmt_set_pmk(sm, sm->xxkey, sm->xxkey_len))
@@ -183,6 +186,7 @@ static int wpa_supplicant_get_pmk(struct wpa_sm *sm,
 				  const u8 *pmkid)
 {
 	int abort_cached = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (pmkid && !sm->cur_pmksa) {
 		/* When using drivers that generate RSN IE, wpa_supplicant may
@@ -339,6 +343,7 @@ int wpa_supplicant_send_2_of_4(struct wpa_sm *sm, const unsigned char *dst,
 			       const u8 *wpa_ie, size_t wpa_ie_len,
 			       struct wpa_ptk *ptk)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	size_t mic_len, hdrlen, rlen;
 	struct wpa_eapol_key *reply;
 	struct wpa_eapol_key_192 *reply192;
@@ -429,6 +434,7 @@ int wpa_supplicant_send_2_of_4(struct wpa_sm *sm, const unsigned char *dst,
 static int wpa_derive_ptk(struct wpa_sm *sm, const unsigned char *src_addr,
 			  const struct wpa_eapol_key *key, struct wpa_ptk *ptk)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_IEEE80211R
 	if (wpa_key_mgmt_ft(sm->key_mgmt))
 		return wpa_derive_ptk_ft(sm, src_addr, key, ptk);
@@ -452,6 +458,7 @@ static void wpa_supplicant_process_1_of_4(struct wpa_sm *sm,
 	int res;
 	u8 *kde, *kde_buf = NULL;
 	size_t kde_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (wpa_sm_get_network_ctx(sm) == NULL) {
 		wpa_msg(sm->ctx->msg_ctx, MSG_WARNING, "WPA: No SSID info "
@@ -559,6 +566,7 @@ static void wpa_sm_start_preauth(void *eloop_ctx, void *timeout_ctx)
 static void wpa_supplicant_key_neg_complete(struct wpa_sm *sm,
 					    const u8 *addr, int secure)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	wpa_msg(sm->ctx->msg_ctx, MSG_INFO,
 		"WPA: Key negotiation completed with "
 		MACSTR " [PTK=%s GTK=%s]", MAC2STR(addr),
@@ -614,6 +622,7 @@ static int wpa_supplicant_install_ptk(struct wpa_sm *sm,
 	int keylen, rsclen;
 	enum wpa_alg alg;
 	const u8 *key_rsc;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!sm->tk_to_set) {
 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
@@ -678,6 +687,7 @@ static int wpa_supplicant_check_group_cipher(struct wpa_sm *sm,
 					     enum wpa_alg *alg)
 {
 	int klen;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	*alg = wpa_cipher_to_alg(group_cipher);
 	if (*alg == WPA_ALG_NONE) {
@@ -713,6 +723,7 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 {
 	const u8 *_gtk = gd->gtk;
 	u8 gtk_buf[32];
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_hexdump_key(MSG_DEBUG, "WPA: Group Key", gd->gtk, gd->gtk_len);
 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
@@ -755,6 +766,7 @@ static int wpa_supplicant_install_gtk(struct wpa_sm *sm,
 static int wpa_supplicant_gtk_tx_bit_workaround(const struct wpa_sm *sm,
 						int tx)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (tx && sm->pairwise_cipher != WPA_CIPHER_NONE) {
 		/* Ignore Tx bit for GTK if a pairwise key is used. One AP
 		 * seemed to set this bit (incorrectly, since Tx is only when
@@ -774,6 +786,7 @@ static int wpa_supplicant_rsc_relaxation(const struct wpa_sm *sm,
 					 const u8 *rsc)
 {
 	int rsclen;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!sm->wpa_rsc_relaxation)
 		return 0;
@@ -807,6 +820,7 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
 {
 	struct wpa_gtk_data gd;
 	const u8 *key_rsc;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	/*
 	 * IEEE Std 802.11i-2004 - 8.5.2 EAPOL-Key frames - Figure 43x
@@ -857,6 +871,7 @@ static int wpa_supplicant_pairwise_gtk(struct wpa_sm *sm,
 static int ieee80211w_set_keys(struct wpa_sm *sm,
 			       struct wpa_eapol_ie_parse *ie)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifdef CONFIG_IEEE80211W
 	if (!wpa_cipher_valid_mgmt_group(sm->mgmt_group_cipher))
 		return 0;
@@ -904,6 +919,7 @@ static void wpa_report_ie_mismatch(struct wpa_sm *sm,
 {
 	wpa_msg(sm->ctx->msg_ctx, MSG_WARNING, "WPA: %s (src=" MACSTR ")",
 		reason, MAC2STR(src_addr));
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->ap_wpa_ie) {
 		wpa_hexdump(MSG_INFO, "WPA: WPA IE in Beacon/ProbeResp",
@@ -943,6 +959,7 @@ static int ft_validate_mdie(struct wpa_sm *sm,
 			    const u8 *assoc_resp_mdie)
 {
 	struct rsn_mdie *mdie;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	mdie = (struct rsn_mdie *) (ie->mdie + 2);
 	if (ie->mdie == NULL || ie->mdie_len < 2 + sizeof(*mdie) ||
@@ -973,6 +990,7 @@ static int ft_validate_ftie(struct wpa_sm *sm,
 			    struct wpa_eapol_ie_parse *ie,
 			    const u8 *assoc_resp_ftie)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (ie->ftie == NULL) {
 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 			"FT: No FTIE in EAPOL-Key msg 3/4");
@@ -1001,6 +1019,7 @@ static int ft_validate_rsnie(struct wpa_sm *sm,
 			     struct wpa_eapol_ie_parse *ie)
 {
 	struct wpa_ie_data rsn;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!ie->rsn_ie)
 		return 0;
@@ -1037,6 +1056,7 @@ static int wpa_supplicant_validate_ie_ft(struct wpa_sm *sm,
 					 struct wpa_eapol_ie_parse *ie)
 {
 	const u8 *pos, *end, *mdie = NULL, *ftie = NULL;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->assoc_resp_ies) {
 		pos = sm->assoc_resp_ies;
@@ -1071,6 +1091,7 @@ static int wpa_supplicant_validate_ie(struct wpa_sm *sm,
 				      const unsigned char *src_addr,
 				      struct wpa_eapol_ie_parse *ie)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm->ap_wpa_ie == NULL && sm->ap_rsn_ie == NULL) {
 		wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG,
 			"WPA: No WPA/RSN IE for this AP known. "
@@ -1149,6 +1170,7 @@ int wpa_supplicant_send_4_of_4(struct wpa_sm *sm, const unsigned char *dst,
 	struct wpa_eapol_key *reply;
 	struct wpa_eapol_key_192 *reply192;
 	u8 *rbuf, *key_mic;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	mic_len = wpa_mic_len(sm->key_mgmt);
 	hdrlen = mic_len == 24 ? sizeof(*reply192) : sizeof(*reply);
@@ -1190,6 +1212,7 @@ static void wpa_supplicant_process_3_of_4(struct wpa_sm *sm,
 {
 	u16 key_info, keylen;
 	struct wpa_eapol_ie_parse ie;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_sm_set_state(sm, WPA_4WAY_HANDSHAKE);
 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG, "WPA: RX message 3 of 4-Way "
@@ -1321,6 +1344,7 @@ static int wpa_supplicant_process_1_of_2_rsn(struct wpa_sm *sm,
 {
 	int maxkeylen;
 	struct wpa_eapol_ie_parse ie;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_hexdump(MSG_DEBUG, "RSN: msg 1/2 key data", keydata, keydatalen);
 	if (wpa_supplicant_parse_ies(keydata, keydatalen, &ie) < 0)
@@ -1371,6 +1395,7 @@ static int wpa_supplicant_process_1_of_2_wpa(struct wpa_sm *sm,
 {
 	size_t maxkeylen;
 	u16 gtk_len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	gtk_len = WPA_GET_BE16(key->key_length);
 	maxkeylen = key_data_len;
@@ -1458,6 +1483,7 @@ static int wpa_supplicant_send_2_of_2(struct wpa_sm *sm,
 	struct wpa_eapol_key *reply;
 	struct wpa_eapol_key_192 *reply192;
 	u8 *rbuf, *key_mic;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	mic_len = wpa_mic_len(sm->key_mgmt);
 	hdrlen = mic_len == 24 ? sizeof(*reply192) : sizeof(*reply);
@@ -1502,6 +1528,7 @@ static void wpa_supplicant_process_1_of_2(struct wpa_sm *sm,
 	int rekey, ret;
 	struct wpa_gtk_data gd;
 	const u8 *key_rsc;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (!sm->msg_3_of_4_ok) {
 		wpa_msg(sm->ctx->msg_ctx, MSG_INFO,
@@ -1571,6 +1598,7 @@ static int wpa_supplicant_verify_eapol_key_mic(struct wpa_sm *sm,
 	u8 mic[WPA_EAPOL_KEY_MIC_MAX_LEN];
 	int ok = 0;
 	size_t mic_len = wpa_mic_len(sm->key_mgmt);
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	os_memcpy(mic, key->key_mic, mic_len);
 	if (sm->tptk_set) {
@@ -1622,6 +1650,7 @@ static int wpa_supplicant_decrypt_key_data(struct wpa_sm *sm,
 					   struct wpa_eapol_key *key, u16 ver,
 					   u8 *key_data, size_t *key_data_len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	wpa_hexdump(MSG_DEBUG, "RSN: encrypted key data",
 		    key_data, *key_data_len);
 	if (!sm->ptk_set) {
@@ -1709,6 +1738,7 @@ static void wpa_eapol_key_dump(struct wpa_sm *sm,
 			       unsigned int key_data_len,
 			       const u8 *mic, unsigned int mic_len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 #ifndef CONFIG_NO_STDOUT_DEBUG
 	u16 key_info = WPA_GET_BE16(key->key_info);
 
@@ -1760,6 +1790,7 @@ static void wpa_eapol_key_dump(struct wpa_sm *sm,
 int wpa_sm_rx_eapol(struct wpa_sm *sm, const u8 *src_addr,
 		    const u8 *buf, size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	size_t plen, data_len, key_data_len;
 	const struct ieee802_1x_hdr *hdr;
 	struct wpa_eapol_key *key;
@@ -2126,6 +2157,7 @@ int wpa_sm_get_mib(struct wpa_sm *sm, char *buf, size_t buflen)
 	char pmkid_txt[PMKID_LEN * 2 + 1];
 	int rsna, ret;
 	size_t len;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->cur_pmksa) {
 		wpa_snprintf_hex(pmkid_txt, sizeof(pmkid_txt),
@@ -2199,6 +2231,7 @@ static void wpa_sm_pmksa_free_cb(struct rsn_pmksa_cache_entry *entry,
 {
 	struct wpa_sm *sm = ctx;
 	int deauth = 0;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG, "RSN: PMKSA cache entry free_cb: "
 		MACSTR " reason=%d", MAC2STR(entry->aa), reason);
@@ -2246,6 +2279,7 @@ static void wpa_sm_pmksa_free_cb(struct rsn_pmksa_cache_entry *entry,
 struct wpa_sm * wpa_sm_init(struct wpa_sm_ctx *ctx)
 {
 	struct wpa_sm *sm;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	sm = os_zalloc(sizeof(*sm));
 	if (sm == NULL)
@@ -2276,6 +2310,7 @@ struct wpa_sm * wpa_sm_init(struct wpa_sm_ctx *ctx)
  */
 void wpa_sm_deinit(struct wpa_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return;
 	pmksa_cache_deinit(sm->pmksa);
@@ -2308,6 +2343,7 @@ void wpa_sm_deinit(struct wpa_sm *sm)
 void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
 {
 	int clear_ptk = 1;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm == NULL)
 		return;
@@ -2368,6 +2404,7 @@ void wpa_sm_notify_assoc(struct wpa_sm *sm, const u8 *bssid)
  */
 void wpa_sm_notify_disassoc(struct wpa_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	eloop_cancel_timeout(wpa_sm_start_preauth, sm, NULL);
 	eloop_cancel_timeout(wpa_sm_rekey_ptk, sm, NULL);
 	peerkey_deinit(sm);
@@ -2399,6 +2436,7 @@ void wpa_sm_notify_disassoc(struct wpa_sm *sm)
 void wpa_sm_set_pmk(struct wpa_sm *sm, const u8 *pmk, size_t pmk_len,
 		    const u8 *pmkid, const u8 *bssid)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return;
 
@@ -2428,6 +2466,7 @@ void wpa_sm_set_pmk(struct wpa_sm *sm, const u8 *pmk, size_t pmk_len,
  */
 void wpa_sm_set_pmk_from_pmksa(struct wpa_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return;
 
@@ -2460,6 +2499,7 @@ void wpa_sm_set_fast_reauth(struct wpa_sm *sm, int fast_reauth)
  */
 void wpa_sm_set_scard_ctx(struct wpa_sm *sm, void *scard_ctx)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return;
 	sm->scard_ctx = scard_ctx;
@@ -2479,6 +2519,7 @@ void wpa_sm_set_scard_ctx(struct wpa_sm *sm, void *scard_ctx)
  */
 void wpa_sm_set_config(struct wpa_sm *sm, struct rsn_supp_config *config)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (!sm)
 		return;
 
@@ -2562,6 +2603,7 @@ void wpa_sm_set_eapol(struct wpa_sm *sm, struct eapol_sm *eapol)
 int wpa_sm_set_param(struct wpa_sm *sm, enum wpa_sm_conf_params param,
 		     unsigned int value)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	int ret = 0;
 
 	if (sm == NULL)
@@ -2634,6 +2676,7 @@ int wpa_sm_get_status(struct wpa_sm *sm, char *buf, size_t buflen,
 {
 	char *pos = buf, *end = buf + buflen;
 	int ret;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	ret = os_snprintf(pos, end - pos,
 			  "pairwise_cipher=%s\n"
@@ -2668,6 +2711,7 @@ int wpa_sm_get_status(struct wpa_sm *sm, char *buf, size_t buflen,
 int wpa_sm_pmf_enabled(struct wpa_sm *sm)
 {
 	struct wpa_ie_data rsn;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm->mfp == NO_MGMT_FRAME_PROTECTION || !sm->ap_rsn_ie)
 		return 0;
@@ -2691,6 +2735,7 @@ int wpa_sm_set_assoc_wpa_ie_default(struct wpa_sm *sm, u8 *wpa_ie,
 				    size_t *wpa_ie_len)
 {
 	int res;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	if (sm == NULL)
 		return -1;
@@ -2745,6 +2790,7 @@ int wpa_sm_set_assoc_wpa_ie_default(struct wpa_sm *sm, u8 *wpa_ie,
  */
 int wpa_sm_set_assoc_wpa_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return -1;
 
@@ -2780,6 +2826,7 @@ int wpa_sm_set_assoc_wpa_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
  */
 int wpa_sm_set_ap_wpa_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return -1;
 
@@ -2815,6 +2862,7 @@ int wpa_sm_set_ap_wpa_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
  */
 int wpa_sm_set_ap_rsn_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return -1;
 
@@ -2849,6 +2897,7 @@ int wpa_sm_set_ap_rsn_ie(struct wpa_sm *sm, const u8 *ie, size_t len)
  */
 int wpa_sm_parse_own_wpa_ie(struct wpa_sm *sm, struct wpa_ie_data *data)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (sm == NULL)
 		return -1;
 
@@ -2871,6 +2920,7 @@ int wpa_sm_pmksa_cache_list(struct wpa_sm *sm, char *buf, size_t len)
 
 void wpa_sm_drop_sa(struct wpa_sm *sm)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	wpa_dbg(sm->ctx->msg_ctx, MSG_DEBUG, "WPA: Clear old PMK and PTK");
 	sm->ptk_set = 0;
 	sm->tptk_set = 0;
@@ -2908,6 +2958,7 @@ void wpa_sm_pmksa_cache_flush(struct wpa_sm *sm, void *network_ctx)
 #ifdef CONFIG_WNM
 int wpa_wnmsleep_install_key(struct wpa_sm *sm, u8 subelem_id, u8 *buf)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	u16 keyinfo;
 	u8 keylen;  /* plaintext key len */
 	u8 *key_rsc;
@@ -2988,6 +3039,7 @@ int wpa_sm_rx_eapol_peerkey(struct wpa_sm *sm, const u8 *src_addr,
 			    const u8 *buf, size_t len)
 {
 	struct wpa_peerkey *peerkey;
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 
 	for (peerkey = sm->peerkey; peerkey; peerkey = peerkey->next) {
 		if (os_memcmp(peerkey->addr, src_addr, ETH_ALEN) == 0)
@@ -3019,6 +3071,7 @@ int wpa_sm_get_p2p_ip_addr(struct wpa_sm *sm, u8 *buf)
 
 void wpa_sm_set_rx_replay_ctr(struct wpa_sm *sm, const u8 *rx_replay_counter)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (rx_replay_counter == NULL)
 		return;
 
@@ -3033,6 +3086,7 @@ void wpa_sm_set_ptk_kck_kek(struct wpa_sm *sm,
 			    const u8 *ptk_kck, size_t ptk_kck_len,
 			    const u8 *ptk_kek, size_t ptk_kek_len)
 {
+	wpa_printf(MSG_DEBUG, "hanfsuhun: %s", __func__);
 	if (ptk_kck && ptk_kck_len <= WPA_KCK_MAX_LEN) {
 		os_memcpy(sm->ptk.kck, ptk_kck, ptk_kck_len);
 		sm->ptk.kck_len = ptk_kck_len;
